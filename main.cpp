@@ -35,10 +35,10 @@ int main(){
 
 
   std::size_t size = 10000000, alignment = 32; Type a = 10;
-   auto yy = (Type*) operator new[](sizeof(Type)* size, (std::align_val_t)(alignment));
-   auto xx = (Type*) operator new[](sizeof(Type)* size, (std::align_val_t)(alignment));
-//    Type* x = new Type[size];
-//    Type* y = new Type[size];
+//    auto yy = (Type*) operator new[](sizeof(Type)* size, (std::align_val_t)(alignment));
+//    auto xx = (Type*) operator new[](sizeof(Type)* size, (std::align_val_t)(alignment));
+   Type* x = new Type[size];
+   Type* y = new Type[size];       int k;
    auto start = std::chrono::high_resolution_clock::now();
 
    for (size_t j = 0; j < 1000; j++)
@@ -46,8 +46,8 @@ int main(){
         #pragma omp parallel for
             for (int i = 0; i < size; ++i)
             {
-                //saxpy(x, y, i, a);
-                 saxpy(xx, yy, i, a);
+                saxpy(x, y, i, a);
+                 //saxpy(xx, yy, i, a);
                  //yy[i] = a * xx[i] + yy[i];
             }
    }
@@ -55,10 +55,10 @@ int main(){
    auto end = std::chrono::high_resolution_clock::now();
    auto time = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
    std::cout << time << " seconds" << std::endl;
-    ::operator delete(xx, std::align_val_t{ alignment });
-    ::operator delete(yy, std::align_val_t{ alignment });
-    std::cout << __STDCPP_DEFAULT_NEW_ALIGNMENT__ << std::endl;
-   //delete[] x; delete[] y;
+    // ::operator delete(xx, std::align_val_t{ alignment });
+    // ::operator delete(yy, std::align_val_t{ alignment });
+    //std::cout << __STDCPP_DEFAULT_NEW_ALIGNMENT__ << std::endl;
+   delete[] x; delete[] y;
 
     
     
