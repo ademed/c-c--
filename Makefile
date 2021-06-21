@@ -1,12 +1,15 @@
 #declare variable
 CC = g++
-CCFLAGS = -O3 -std=c++17 -fopenmp -mavx 
+CCFLAGS = -std=c++17 -O3 -mavx
 
-main: main.o
+ main: main.o
 	$(CC) $(CCFLAGS) -o main main.o  
 
-main.o: main.cpp
-	$(CC) -c main.cpp 
+ main.o: main.s
+	$(CC) $(CCFLAGS) -c main.s  
+
+main.s: main.cpp
+	$(CC) $(CCFLAGS) -S main.cpp 
 
 clean:
-	rm -f *.o 
+	rm -rf main
