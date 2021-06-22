@@ -30,7 +30,7 @@ class custom_iterator {
    */
 };
 
-int main(int argc, char *argv[]) {
+int main1(int argc, char *argv[]) {
   std::cout << "============================================================="
             << std::endl;
   std::cout

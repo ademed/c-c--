@@ -3,19 +3,19 @@
 	.p2align 4
 	.def	___tcf_0;	.scl	3;	.type	32;	.endef
 ___tcf_0:
-LFB2309:
+LFB2305:
 	.cfi_startproc
 	movl	$__ZStL8__ioinit, %ecx
 	jmp	__ZNSt8ios_base4InitD1Ev
 	.cfi_endproc
-LFE2309:
+LFE2305:
 	.def	___main;	.scl	2;	.type	32;	.endef
 	.section	.text.startup,"x"
 	.p2align 4
 	.globl	_main
 	.def	_main;	.scl	2;	.type	32;	.endef
 _main:
-LFB1848:
+LFB1844:
 	.cfi_startproc
 	pushl	%ebp
 	.cfi_def_cfa_offset 8
@@ -30,11 +30,11 @@ LFB1848:
 	.cfi_def_cfa 4, 4
 	ret
 	.cfi_endproc
-LFE1848:
+LFE1844:
 	.p2align 4
 	.def	__GLOBAL__sub_I_main;	.scl	3;	.type	32;	.endef
 __GLOBAL__sub_I_main:
-LFB2310:
+LFB2306:
 	.cfi_startproc
 	subl	$28, %esp
 	.cfi_def_cfa_offset 32
@@ -46,7 +46,7 @@ LFB2310:
 	.cfi_def_cfa_offset 4
 	ret
 	.cfi_endproc
-LFE2310:
+LFE2306:
 	.section	.ctors,"w"
 	.align 4
 	.long	__GLOBAL__sub_I_main
