@@ -115,16 +115,13 @@ int main(int, char **) {
    auto check1  = reinterpret_cast<size_t>(stdvA.data())% alignment;        
    auto check2  = reinterpret_cast<size_t>(stdvB.data())% alignment;       
   std::cout << check1 << "   " << check2 << std::endl;
-  double one = 1.0;                 
+  double one = 1.0;                    
   auto start = std::chrono::high_resolution_clock::now();  
     for (size_t i = 0; i < 1000; i++)      
     {
-        mxcpl::utilities::copy_n<>::apply(N, stdvA, stdvB.data());        
-       //mxcpl::utilities::copy_n<policy>::apply(N, stdvA.data(), stdvB.data());
-
-
+       mxcpl::utilities::copy_n<>::apply(N, stdvA, one);        
+      // mxcpl::utilities::copy_n<policy>::apply(N, stdvA.data(),one );      
     }
-
   auto end = std::chrono::high_resolution_clock::now(); 
   auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
   //  ::operator delete(x, std::align_val_t{ alignment });

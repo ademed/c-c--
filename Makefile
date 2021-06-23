@@ -11,7 +11,7 @@ main.s: main.cpp
 	$(CC) $(CCFLAGS) main.cpp -S 
 
 clean:
-	rm *.o main
+	-rm *.o main *.s
 
 # CC = gcc
 # CCFLAGS = -std=c99

@@ -177,7 +177,7 @@ struct copy_n<OMP_ParallelForSIMD<Align, SIMD_vec_len>> {
       if constexpr (mxcpl::type_traits::is_iterable_v<
                         std::remove_reference_t<InputIt> >) 
       {
-        #pragma vector nontemporal(_a,_b)
+        // #pragma vector nontemporal(_a,_b)
           #pragma omp parallel for simd schedule(static)\
             simdlen(SIMD_vec_len) aligned(_a, _b                           \
                                           : Align)
@@ -216,11 +216,11 @@ struct copy_n<OMP_ParallelForSIMD<Align, SIMD_vec_len>> {
       if constexpr (mxcpl::type_traits::is_iterable_v<
                         std::remove_reference_t<InputIt> >) 
       {
-        //  #pragma vector nontemporal(_a,_b)
-        //   #pragma omp parallel for simd schedule(static)  \
-        //     simdlen(SIMD_vec_len) aligned(_b                           \
-        //                                   : Align)
-        for (SizeType i{0}; i < _N; ++i) {
+         #pragma vector nontemporal(_a,_b)
+          #pragma omp parallel for simd schedule(static)  \
+            simdlen(SIMD_vec_len) aligned(_b                           \
+                                          : Align)
+        for (SizeType i = 0; i < _N; ++i) {
           _a[i] = *_b;
           ++_b;
         }
@@ -228,13 +228,13 @@ struct copy_n<OMP_ParallelForSIMD<Align, SIMD_vec_len>> {
       else if constexpr (mxcpl::type_traits::is_indexable_v<
                                std::remove_reference_t<InputIt> >) 
       {
-        //  #pragma vector nontemporal(_a,_b)
-        //   #pragma omp parallel for simd schedule(static)  \
-        //     simdlen(SIMD_vec_len) //aligned(_a, _b                           \
-        //                                   : Align)
-        // for (SizeType i = 0; i < _N; ++i) {
-        //   _a[i] = _b[i];
-        // }
+         #pragma vector nontemporal(_a,_b)
+          #pragma omp parallel for simd schedule(static)  \
+            simdlen(SIMD_vec_len) //aligned(_a, _b                           \
+                                          : Align)
+        for (SizeType i = 0; i < _N; ++i) {
+          _a[i] = _b[i];
+        }
       }
       else 
       {
