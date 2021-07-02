@@ -1,15 +1,11 @@
 CC = g++
-CCFLAGS = -std=c++17 -O3 -mavx -fopenmp
+CCFLAGS = -std=c++17 -g
 
  main: main.o
 	$(CC) $(CCFLAGS) main.o -o main 
 
- main.o: main.s
-	$(CC) $(CCFLAGS) main.s -c  
-
-main.s: main.cpp
-	$(CC) $(CCFLAGS) main.cpp -S 
-
+ main.o: main.cpp
+	$(CC) $(CCFLAGS) main.cpp -c  
 clean:
 	-rm *.o main *.s
 

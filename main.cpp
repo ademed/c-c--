@@ -1,14 +1,22 @@
 #include <iostream>
+#include "stack1.hpp"
 
+
+template<typename T>
+constexpr auto max(T a, T b)
+{
+    return a>b?a:b;
+}
+
+template<typename T, typename S>
+std::common_type_t<T,S> max(T a, S b)
+{
+    return a>b?a:b;
+}
 int main(){
+   auto a = max(2,2);     
 
-    double a[4] = {1,2,3,4};
-    double b[4] = {1,2,3,4};
-    double c[4] {0};
-    for (size_t i = 0; i < 4; i++)
-    {    
-       c[i] = a[i] + b[i];                 
-    }    
+
     
     return 0;
 }

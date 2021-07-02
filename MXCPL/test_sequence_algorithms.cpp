@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <deque>
+#include <array>
 #include "sequence_algorithms.hpp"
 #include "timer.hpp"
 #include <algorithm>
@@ -101,33 +101,37 @@ std::size_t N = 5ul;
             << std::endl;
 }
 
-int main(int, char **) {      
+int main(int, char **) {  
+  std::size_t N = 5ul;    
+  std::vector<double> a(N,5.0); std::vector<double> b{0,1,2,3,4};    
 
-  // void (*ptr)() = test_no_policy;
-  // std::cout <<  timer(ptr)/1e6 << "  seconds" << std::endl;
-  const std::size_t N = 10000000, alignment = 32;
-  typedef mxcpl::utilities::OMP_ParallelForSIMD<alignment,4> policy;
-  std::vector<double> stdvA(N, 5.0), stdvB(N, 20.0); 
-  // auto x = (double*) operator new[](sizeof(double)* N, (std::align_val_t)(alignment));
-  // auto y = (double*) operator new[](sizeof(double)* N, (std::align_val_t)(alignment));
-  // auto check1  = reinterpret_cast<size_t>(x)% alignment;
-  // auto check2  = reinterpret_cast<size_t>(y)% alignment;
-   auto check1  = reinterpret_cast<size_t>(stdvA.data())% alignment;        
-   auto check2  = reinterpret_cast<size_t>(stdvB.data())% alignment;       
-  std::cout << check1 << "   " << check2 << std::endl;
-  double one = 1.0;                    
-  auto start = std::chrono::high_resolution_clock::now();  
-    for (size_t i = 0; i < 1000; i++)      
-    {
-       mxcpl::utilities::copy_n<>::apply(N, stdvA, one);        
-      // mxcpl::utilities::copy_n<policy>::apply(N, stdvA.data(),one );      
-    }
-  auto end = std::chrono::high_resolution_clock::now(); 
-  auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-  //  ::operator delete(x, std::align_val_t{ alignment });
-  // ::operator delete(y, std::align_val_t{alignment});
-  std::cout << time/1e6 << " seconds" << std::endl;
 
+  // // void (*ptr)() = test_no_policy;
+  // // std::cout <<  timer(ptr)/1e6 << "  seconds" << std::endl;
+  // const std::size_t N = 10*1000*1000, alignment = 32;
+  // typedef mxcpl::utilities::OMP_ParallelForSIMD<alignment,4> policy;
+  //  std::vector<double> stdvA(N, 5.0), stdvB(N, 20.0); 
+  // //std::array<double,N> stdvA = {}; std::array<double,N> stdvB = {}; 
+  // // auto x = (double*) operator new[](sizeof(double)* N, (std::align_val_t)(alignment));
+  // // auto y = (double*) operator new[](sizeof(double)* N, (std::align_val_t)(alignment));
+  // // auto check1  = reinterpret_cast<size_t>(x)% alignment;
+  // // auto check2  = reinterpret_cast<size_t>(y)% alignment;
+  //  auto check1  = reinterpret_cast<size_t>(stdvA.data())% alignment;        
+  //  auto check2  = reinterpret_cast<size_t>(stdvB.data())% alignment;            
+  // std::cout << check1 << "   " << check2 << std::endl;
+  // double one = 1.0;                    
+  // auto start = std::chrono::high_resolution_clock::now();  
+  //    for (size_t i = 0; i < 1000; i++)      
+  //    {
+  //     //mxcpl::utilities::copy_n<>::apply(N, stdvA, stdvB);           
+  //      mxcpl::utilities::copy_n<policy>::apply(N, stdvA, stdvB);                 
+  //   }
+  // auto end = std::chrono::high_resolution_clock::now(); 
+  // auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+  // //  ::operator delete(x, std::align_val_t{ alignment });
+  // // ::operator delete(y, std::align_val_t{alignment});
+  // std::cout << time/1e6 << " seconds" << std::endl;            
+ 
 
 
 

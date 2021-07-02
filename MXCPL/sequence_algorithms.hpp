@@ -232,6 +232,7 @@ struct copy_n<OMP_ParallelForSIMD<Align, SIMD_vec_len>> {
           #pragma omp parallel for simd schedule(static)  \
             simdlen(SIMD_vec_len) //aligned(_a, _b                           \
                                           : Align)
+  
         for (SizeType i = 0; i < _N; ++i) {
           _a[i] = _b[i];
         }
@@ -252,6 +253,7 @@ struct copy_n<OMP_ParallelForSIMD<Align, SIMD_vec_len>> {
       _a = _b;
     }
   }
+
 };
 
 // template <>
