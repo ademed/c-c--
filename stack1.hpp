@@ -7,6 +7,7 @@
 
 template<typename T>
 class Stack{
+
     public:
         void push(T const& elem);
         void pop();
@@ -15,12 +16,27 @@ class Stack{
             return elems.empty();
         };
         template<typename U> //implementing non-member template function 
-        friend std::ostream& operator << (std::ostream& strm, Stack<U> const& stck);
+        friend std::ostream& operator<< (std::ostream& strm, Stack<U> const& stck);
+        template<typename S>
+        Stack<T>& operator=(Stack<S> const& stc);
+        template<typename> friend class Stack; // this makes private members of stc accessible
+       
    
     private:
         std::vector<T> elems; 
 
 };
+
+template<typename T>
+    template<typename S>
+    Stack<T>& Stack<T>::operator=(Stack<S> const& stc)
+    {
+        std::cout << "operator= called" << std::endl;
+        elems.clear();
+        elems.insert(elems.begin(), stc.elems.begin(), stc.elems.end());
+        return *this;
+    }
+
 
 template<typename T, typename S>
 class Stack<std::pair<T,S>>{
@@ -43,7 +59,7 @@ class Stack<std::pair<T,S>>{
 
     friend std::ostream& operator << (std::ostream& strm, Stack<std::pair<T,S>> const& stck){
         for(auto start = stck.elems.rbegin();  start != stck.elems.rend(); start++){
-                    strm << *(start).first() << "    " <<  *(start).second() << " \n" ;
+                    strm << (*start).first << "    " <<  (*start).second << " \n" ;
             }
             return strm;
     }
