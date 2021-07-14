@@ -2,10 +2,10 @@
 #ifndef STACK1_HPP
 #define STACK1_HPP
 
-#include <vector>
 #include <cassert>
+#include <vector>
 
-template<typename T>
+template<typename T, template<typename> class cont = std::vector> //template template parameter with default value
 class Stack{
 
     public:
@@ -15,11 +15,13 @@ class Stack{
         bool empty() const{
             return elems.empty();
         };
-        template<typename U> //implementing non-member template function 
-        friend std::ostream& operator<< (std::ostream& strm, Stack<U> const& stck);
-        template<typename S>
-        Stack<T>& operator=(Stack<S> const& stc);
-        template<typename> friend class Stack; // this makes private members of stc accessible
+
+        template<typename U, template<typename> class S> //implementing non-member template function 
+        friend std::ostream& operator<< (std::ostream& strm, Stack<U,S> const& stck);
+
+        template<typename U, template<typename> class S>
+        Stack<T, cont>& operator=(Stack<U,S> const& stc);
+        template<typename,template<typename> class> friend class Stack; // this makes private members of stc accessible
        
    
     private:
@@ -27,15 +29,16 @@ class Stack{
 
 };
 
-template<typename T>
-    template<typename S>
-    Stack<T>& Stack<T>::operator=(Stack<S> const& stc)
+template<typename T, template<typename> class cont>
+    template<typename U, template<typename> class S>
+    Stack<T, cont>& Stack<T,cont>::operator=(Stack<U,S> const& stc)
     {
         std::cout << "operator= called" << std::endl;
         elems.clear();
         elems.insert(elems.begin(), stc.elems.begin(), stc.elems.end());
         return *this;
     }
+
 
 
 template<typename T, typename S>
@@ -68,8 +71,8 @@ class Stack<std::pair<T,S>>{
 
 };
 
-template<typename T>
-std::ostream& operator <<(std::ostream& strm, Stack<T> const& stck)
+template<typename T, template<typename> class U>
+std::ostream& operator <<(std::ostream& strm, Stack<T,U> const& stck)
 {
             for(auto start = stck.elems.rbegin();  start != stck.elems.rend(); start++){
                     strm << *start << " \n" ;
@@ -77,17 +80,17 @@ std::ostream& operator <<(std::ostream& strm, Stack<T> const& stck)
             return strm;
 }
 
-template<typename T>
-void Stack<T>::push(T const& elem){
+template<typename T, template<typename> class cont>
+void Stack<T, cont>::push(T const& elem){
     elems.push_back(elem);
 }
-template<typename T>
-void Stack<T>::pop(){
+template<typename T, template<typename> class cont>
+void Stack<T, cont>::pop(){
     assert(!elems.empty());
     elems.pop_back();
 }
-template<typename T>
-T const& Stack<T>::top() const{
+template<typename T, template<typename> class cont>
+T const& Stack<T, cont>::top() const{
     assert(!elems.empty());
     return elems.back();
 }

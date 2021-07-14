@@ -1,5 +1,5 @@
 CC = g++
-CCFLAGS = -std=c++17 -g
+CCFLAGS = -std=c++17 -g 
 
  main: main.o
 	$(CC) $(CCFLAGS) main.o -o main 
