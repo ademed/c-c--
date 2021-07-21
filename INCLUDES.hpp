@@ -9,5 +9,8 @@
 #include <bitset>
 #include "Templates.hpp"
 #include <deque>
+#include <algorithm>
+#include <type_traits>
 #include "person.hpp"
 #include  <functional>
+#include <utility>

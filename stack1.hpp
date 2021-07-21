@@ -16,7 +16,7 @@ class Stack{
             return elems.empty();
         };
 
-        template<typename U, template<typename> class S> //implementing non-member template function 
+        template<typename U, template<typename> class S> //implementing non-member function of template class 
         friend std::ostream& operator<< (std::ostream& strm, Stack<U,S> const& stck);
 
         template<typename U, template<typename> class S>

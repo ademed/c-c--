@@ -2,6 +2,7 @@
 #pragma once
 
 #include <iostream>
+#include <functional>
 
 namespace Template{
 
@@ -73,7 +74,7 @@ void printBitset(std::bitset<N> const& bs){
     
 };
 
-template<typename T>
+template<typename T> //variable template
  T pi{3.1415926535897932385};
 
 void printPi(){
@@ -186,6 +187,37 @@ typename T::size_type len(T const& arr){
     return arr.size();
 }
 
+
+
+template<typename iter, typename callable, typename... Arg>
+void foreach(iter start, iter end, callable&& op, Arg&&... arg){
+    while(start!=end)
+    {
+        //op(*start, arg...);
+      // std::invoke(op,*start, arg...);
+        std::invoke(std::forward<callable>(op), std::forward<Arg>(arg)..., *start);
+        ++start;
+    }
+}
+
+
+template<typename T, typename S>
+auto returnSum = [](T a, S b) -> std::common_type_t<T,S> {return a + b;}; //lambda expression template: [] is called Lambda Introducer
+
+class FuncObj{
+    public:
+        void operator() (int i){
+            std::cout << i << std::endl;
+        } 
+        void MemberFunc(std::string const& str, int i) const{  //used in calling a member function in a function template that takes a functor as an argument
+            std::cout << str <<  i << std::endl;
+        }
+        auto operator& (){ //overloaded & operator may require the use of std::addressof() to get the address of the object
+            return this;
+        }
+
+
+};
 
 
 }

@@ -4,6 +4,7 @@
 
 struct Person{
 public:
+    Person() = default;
     template<typename T>
     using EnableIfConvertible = std::enable_if_t<std::is_convertible_v<T, std::string>>;
     template<typename STR, typename = EnableIfConvertible<STR>>

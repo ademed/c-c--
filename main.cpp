@@ -11,41 +11,45 @@ constexpr unsigned long long Factorial(unsigned m){
     return ans;
 }
 
-template<typename iter, typename callable, typename... Arg>
-void foreach(iter start, iter end, callable op, Arg const&... arg){
-    while(start!=end)
-    {
-        //op(*start, arg...);
-      // std::invoke(op,*start, arg...);
-        std::invoke(op, arg..., *start);
-        ++start;
-    }
+template<unsigned... T>
+unsigned mySum(){
+    return (T + ...);
 }
 
 
-template<typename T, typename S>
-auto returnSum = [](T a, S b) -> std::common_type_t<T,S> {return a + b;}; //lambda expression template: [] is called Lambda Introducer
+template<typename T = int>
+unsigned mySum2(){
+    return sizeof(T);
+}
+struct myClass{ myClass() = default;};
 
-class FuncObj{
-    public:
-        // void operator() (int i){
-        //     std::cout << i << std::endl;
-        // } 
-        void MemberFunc(std::string const& str, int i) const{
-            std::cout << str <<  i << std::endl;
-        }
+template<typename T1, typename T2>
+auto myAdd(){
+    std::cout << "adding..." << std::endl;
+}
 
-};
 
 
 int main(){
+
+ 
+    
+        // std::cout << *std::max_element(v.begin(), v.end())<< std::endl;
+        #if 0
+
         std::vector<int> vec = {1,2,3,4,5,6,7,8,9};
         // foreach(vec.begin(), vec.end(), [](int i){std::cout << i << std::endl;}); //using lambda expression as functor
         // foreach(vec.begin(), vec.end(), FuncObj()); //using a functor 
         //foreach(vec.begin(), vec.end(), [](std::string const& prefix, int i){std::cout << prefix << i << std::endl;}, "value: ");
+        Template::FuncObj a; std::string str =  "-value: ";
+        Template::foreach(vec.begin(), vec.end(), &Template::FuncObj::MemberFunc, a, "value: "); 
+        
+        auto p = sizeof(a);
+        std::cout << std::addressof(a) << std::endl;
+        #endif
+ 
+        
 
-        FuncObj a; std::string str =  "-value: ";
-        foreach(vec.begin(), vec.end(), &FuncObj::MemberFunc, a, "value: ");
         
         #if 0
         auto firstLamda = [](int i){std::cout << "this is my first lamda expression printing the value: " << i << std::endl;};
