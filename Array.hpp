@@ -23,6 +23,8 @@ public:
     MyArray<U> operator*(MyArray<U> const& b);
     template<typename U>
     MyArray<U> operator+(MyArray<U> const& b);
+    template<typename U>
+    void operator= (MyArray<U> const& b);
     template<typename U, typename S>
     friend MyArray<U> operator*(S const& a,MyArray<U> const& b); //declaring this operator friend makes it possible to do cummutative multiplication with constants
     template<typename U, typename S>
@@ -107,6 +109,12 @@ MyArray<T> operator*(MyArray<T> const& b, S const& a){
         result[i] = b[i]*a;
     }
     return result;
+}
+
+template<typename T>
+    template<typename U>
+void MyArray<T>::operator=(MyArray<U> const& b){
+    this->copy(b);
 }
 
 

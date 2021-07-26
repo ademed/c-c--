@@ -11,7 +11,7 @@ constexpr unsigned long long Factorial(unsigned m){
     return ans;
 }
 
-struct testing{testing() =delete;};
+struct testing{testing() = delete;};
 
 
 
@@ -22,8 +22,25 @@ int main(){
 
 
     MyArray<double> x(1000,12);
-    MyArray y(1000,3);    
-    MyArray z = 1.35*x + x*y;
+    MyArray<double> y(1000,3);    
+    auto start = std::chrono::high_resolution_clock::now();
+   
+    // MyArray<double> z(1000);
+    // for(int i = 0; i < 1000; ++i){
+    //      z = 1.35*x + x*y;  
+    // }
+
+    for(int i = 0; i < 1000; ++i){
+        MyArray<double> z(1000);
+        for (size_t j = 0; i < x.Size(); i++)   
+        {
+            z[j] = 1.35*x[j] + x[j]*y[j];  
+        }             
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    std::cout << time << std::endl;
+    
     //std::cout << z << std::endl;     
 
    // std::cout << Template::HasType<std::vector<int>>::value << std::endl;      
