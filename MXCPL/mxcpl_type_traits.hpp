@@ -51,6 +51,8 @@ struct is_indexable_object<
     std::void_t<decltype(std::declval<T>().operator[](std::declval<S>()))> >
     : std::true_type {};
 
+    
+
 template <typename T, typename S = int>
 constexpr bool is_indexable_object_v = is_indexable_object<T, S>::value;
 

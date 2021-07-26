@@ -11,54 +11,61 @@ constexpr unsigned long long Factorial(unsigned m){
     return ans;
 }
 
-template<unsigned... T>
-unsigned mySum(){
-    return (T + ...);
-}
+struct testing{testing() =delete;};
 
 
-template<typename T = int>
-unsigned mySum2(){
-    return sizeof(T);
-}
-struct myClass{ myClass() = default;};
 
-template<typename T1, typename T2>
-auto myAdd(){
-    std::cout << "adding..." << std::endl;
-}
 
 
 
 int main(){
 
- 
+
+    MyArray<double> x(1000,12);
+    MyArray y(1000,3);    
+    MyArray z = 1.35*x + x*y;
+    //std::cout << z << std::endl;     
+
+   // std::cout << Template::HasType<std::vector<int>>::value << std::endl;      
+
+    // std::list<double> v;  
+    // std::cout << sizeof(Template::ElementT_t<decltype(v)>) << std::endl;
+    // std::cout << typeid(typename Template::ElementT_t<decltype(v)>).name();
+    //std::cout << Template::is_default_constructible2<testing>::value << std::endl;  
     
-        // std::cout << *std::max_element(v.begin(), v.end())<< std::endl;
-        #if 0
 
-        std::vector<int> vec = {1,2,3,4,5,6,7,8,9};
-        // foreach(vec.begin(), vec.end(), [](int i){std::cout << i << std::endl;}); //using lambda expression as functor
-        // foreach(vec.begin(), vec.end(), FuncObj()); //using a functor 
-        //foreach(vec.begin(), vec.end(), [](std::string const& prefix, int i){std::cout << prefix << i << std::endl;}, "value: ");
-        Template::FuncObj a; std::string str =  "-value: ";
-        Template::foreach(vec.begin(), vec.end(), &Template::FuncObj::MemberFunc, a, "value: "); 
+
+
+    
         
-        auto p = sizeof(a);
-        std::cout << std::addressof(a) << std::endl;
-        #endif
+    // double arr[] = {1,2,3,4,5,6,7,8,9,10};
+    // auto val = Template::accum_policy<double, Template::MultPolicy_template>(arr, arr+ 10);
+    // std::cout << val << std::endl;        
+    // std::cout << *std::max_element(v.begin(), v.end())<< std::endl;
+    #if 0
+
+    std::vector<int> vec = {1,2,3,4,5,6,7,8,9};
+    // foreach(vec.begin(), vec.end(), [](int i){std::cout << i << std::endl;}); //using lambda expression as functor
+    // foreach(vec.begin(), vec.end(), FuncObj()); //using a functor 
+    // foreach(vec.begin(), vec.end(), [](std::string const& prefix, int i){std::cout << prefix << i << std::endl;}, "value: ");
+    Template::FuncObj a; std::string str =  "-value: ";
+    Template::foreach(vec.begin(), vec.end(), &Template::FuncObj::MemberFunc, a, "value: "); 
+    
+    auto p = sizeof(a);
+    std::cout << std::addressof(a) << std::endl;
+    #endif
  
         
 
-        
-        #if 0
-        auto firstLamda = [](int i){std::cout << "this is my first lamda expression printing the value: " << i << std::endl;};
-        //firstLamda(23);
-        int m = 3;
-        auto change = [=]() mutable {m*=4; std::cout << "from lambda: " << m << std::endl;};
-        change();
-        std::cout << m << std::endl;
-        #endif
+    
+    #if 0
+    auto firstLamda = [](int i){std::cout << "this is my first lamda expression printing the value: " << i << std::endl;};
+    //firstLamda(23);
+    int m = 3;
+    auto change = [=]() mutable {m*=4; std::cout << "from lambda: " << m << std::endl;};
+    change();
+    std::cout << m << std::endl;
+    #endif
 
     // int arr[20]{};
     // std::vector<double> v(30,0.0); 

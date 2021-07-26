@@ -220,4 +220,230 @@ class FuncObj{
 };
 
 
+template<unsigned... T>
+unsigned mySum(){
+    return (T + ...);
+}
+
+
+template<typename T = int>
+unsigned mySum2(){
+    return sizeof(T);
+}
+struct myClass{ myClass() = default;};
+
+template<typename T1, typename T2>
+auto myAdd(){
+    std::cout << "adding..." << std::endl;
+}
+
+
+
+//***********************************//
+//********IMPLEMENTING TRAITS********//
+//***********************************//
+template<typename T>
+struct AccumTraits{
+    using result_type = T;
+    static constexpr T init{};
+
+};
+
+template<> 
+struct AccumTraits<char>{
+    using result_type = int;
+    static constexpr int init = 0;
+
+};
+
+
+
+template<typename T>
+auto accum(T* beg, T* end){
+    typename AccumTraits<T>::result_type  res = AccumTraits<T>::init;
+    while(beg != end){
+        res = res + *beg;
+        ++beg;
+    }
+    return res;
+}
+
+struct SumPolicy{
+    template<typename T>
+    static void accumulate(T& res, T* beg, T* end){
+        res = 0;
+        while(beg!=end)
+        {
+          res += *beg;
+          ++beg;
+        }
+   
+    }
+};
+template<typename T>
+struct SumPolicy_template{
+    static void accumulate(T& res, T* beg, T* end){
+        res = 0;
+        while(beg!=end)
+        {
+          res += *beg;
+          ++beg;
+        }
+   
+    }
+};
+struct MultPolicy{
+    template<typename T>
+    static void accumulate(T& res, T* beg, T* end){
+        res = 1;
+        while(beg!=end)
+        {
+          res *= *beg;
+          ++beg;
+        }
+   
+    }
+};
+template<typename T>
+struct MultPolicy_template{
+    constexpr static void accumulate(T& res, T* beg, T* end){
+        res = 1;
+        while(beg!=end)
+        {
+          res *= *beg;
+          ++beg;
+        }
+   
+    }
+};
+template<typename T, template<typename> class Policy = SumPolicy_template, typename accum_traits = AccumTraits<T>> //using sumpolicy as default accumulation policy and using parameterized traits (accum_traits)
+auto accum_policy(T* beg, T* end){
+    typename accum_traits::result_type res;
+    Policy<T>::accumulate(res,beg,end);
+    return res;
+}
+template<typename T, typename Policy = SumPolicy, typename accum_traits = AccumTraits<T>> //using sumpolicy as default accumulation policy and using parameterized traits (accum_traits)
+auto accum_policy(T* beg, T* end){
+    typename accum_traits::result_type res;
+    Policy::accumulate(res,beg,end);
+    return res;
+}
+
+
+template <typename T>
+struct ElementT{
+    using type = typename T::value_type;
+};
+
+template <typename T>
+struct ElementT<std::vector<T>>{
+    using type = T;
+};
+
+template<typename T> //alias template
+using ElementT_t = typename ElementT<T>::type;
+
+
+//transforming traits: one of the numerous uses of trait classes
+template<typename T>
+struct RemoveReference{
+    using type = T;
+};
+
+template<typename T>
+struct RemoveReference<T&>{
+    using type = T;
+};
+
+template<typename T>
+struct RemoveReference<T&&>{
+    using type = T;
+};
+
+template<typename T>
+struct AddRReference{
+    using type = T&&;
+};
+template<>
+struct AddRReference<void>{
+    using type = void;
+};
+template<>
+struct AddRReference<void const>{
+    using type = void const;
+};
+template<>
+struct AddRReference<void volatile>{
+    using type = void volatile;
+};
+template<typename T>
+using AddRReference_t = typename AddRReference<T>::type;
+
+
+
+template<typename T>
+struct AddLReference{
+    using type = T&;
+};
+template<>
+struct AddLReference<void>{
+    using type = void;
+};
+template<>
+struct AddLReference<void const>{
+    using type = void const;
+};
+template<>
+struct AddLReference<void volatile>{
+    using type = void volatile;
+};
+template<typename T>
+using AddLReference_t = typename AddLReference<T>::type;
+
+template <typename T>
+struct Addref:AddLReference<T>, AddRReference<T>{}; 
+
+
+
+template<class T, class S>
+struct isSame:std::false_type{}; //metafunction forwarding forwards all member function/types in std::false_type to isSame
+
+template<class T>
+struct isSame<T,T>:std::true_type{};
+
+template<class T, class S>
+constexpr bool isSame_v = isSame<T,S>::value;
+
+
+//Implementing SFINAE based traits/// 
+//----first by function overload
+template<typename T>
+struct is_default_constructible{
+    private:
+        template <typename U, typename = decltype(U())>
+        static int test(void*);
+        template <typename U>
+        static long test(...);
+    public:
+    static constexpr bool value = isSame_v<decltype(test<T>(nullptr)), int>;
+};
+
+//---second by partial specialization
+
+template <typename T, typename = std::void_t<>>
+struct is_default_constructible2:std::false_type{};
+template<typename T>
+struct is_default_constructible2<T, std::void_t<decltype(T())>>: std::true_type{};
+
+
+template<typename, typename = std::void_t<>>
+struct HasType  : std::false_type{}; 
+template<typename T> 
+struct HasType<T, std::void_t<typename T::value_type, typename T::difference_type, decltype(std::declval<T>().begin())> >: std::true_type{}; //checks if type has value_type and difference_type members
+
+
+
+
+
+
 }
