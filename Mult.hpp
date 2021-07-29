@@ -1,7 +1,8 @@
 //this class template codifies the expression template for multiplication object
 #ifndef MULT_HPP
 #define MULT_HPP
-
+#include <cstddef>
+#include <cassert>
 #include "expr_template_traits.hpp"
 
 template<typename T, typename OP1, typename OP2>

@@ -20,42 +20,48 @@ struct testing{testing() = delete;};
 
 int main(){
     std::size_t sz = 1000;
+    
 
     MyArray<double> x1(sz,12);         
     MyArray<double> y1(sz,13);    
     Array<double> x(sz,12);  
     Array<double> y(sz,13);
-    auto start = std::chrono::high_resolution_clock::now();
-   
+       
     ////----------OPERATOR OVERLOAD WITH EXPRESSION TEMPLATES-----//
-
+    auto start = std::chrono::high_resolution_clock::now();
     Array<double> z(sz);
     for(int i = 0; i < 10000; ++i){      
-        z = 2.0*x + x*y;  
+        z = 2.0*x + x*y;    
     }
-
+    auto end = std::chrono::high_resolution_clock::now();
+    auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+    std::cout << "Exp Temp: "<< time << " microseconds" <<std::endl;
 
     ////--------OPERATOR OVERLOAD WITHOUT EXPRESSION TEMPLATES----//
-
-    // MyArray<double> z1(sz);
-    // for(int i = 0; i < 10000; ++i){
-    //     z1 = 2.0*x1 + x1*y1;    
-    // }
+    start = std::chrono::high_resolution_clock::now();
+    MyArray<double> z1(sz);
+    for(int i = 0; i < 10000; ++i){
+        z1 = 2.0*x1 + x1*y1;      
+    }
+    end = std::chrono::high_resolution_clock::now();
+    time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+    std::cout << "NO Expr Temp: "<< time << " microseconds" <<std::endl;
 
 
     ////------------HAND CODED---------//////
+    start = std::chrono::high_resolution_clock::now();
+    for(int i = 0; i < 10000; ++i){
+        MyArray<double> z2(sz);
+        for (size_t j = 0; i < x.Size(); i++)   
+        {
+            z2[j] = 2.0*x[j] + x[j]*y[j];           
+        }             
+    }
+    end = std::chrono::high_resolution_clock::now();
+    time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+    std::cout << "Hand Coded: "<< time << " microseconds" <<std::endl;
 
-    // for(int i = 0; i < 10000; ++i){
-    //     MyArray<double> z(sz);
-    //     for (size_t j = 0; i < x.Size(); i++)   
-    //     {
-    //         z[j] = 2.0*x[j] + x[j]*y[j];     
-    //     }             
-    // }
-    auto end = std::chrono::high_resolution_clock::now();
-    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    std::cout << time << std::endl;
-    //std::cout << z1 << std::endl;
+
     
     //std::cout << z << std::endl;     
 
@@ -65,11 +71,6 @@ int main(){
     // std::cout << sizeof(Template::ElementT_t<decltype(v)>) << std::endl;
     // std::cout << typeid(typename Template::ElementT_t<decltype(v)>).name();
     //std::cout << Template::is_default_constructible2<testing>::value << std::endl;  
-    
-
-
-
-    
         
     // double arr[] = {1,2,3,4,5,6,7,8,9,10};
     // auto val = Template::accum_policy<double, Template::MultPolicy_template>(arr, arr+ 10);

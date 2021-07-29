@@ -1,10 +1,13 @@
 #ifndef SCALAR_HPP
 #define SCALAR_HPP
 
+#include <cstddef>
+#include <cassert>
+
 template<typename T>
 struct Scalar{
 public:
-    Scalar(T const& _val): val(_val){};
+    constexpr Scalar(T const& _val): val(_val){};
     constexpr T const& operator[](std::size_t idx) const{
         return val;
     }

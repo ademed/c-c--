@@ -1,5 +1,8 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
+
+#include <cstddef>
+#include <cassert>
 #include "Scalar.hpp"
 #include "Mult.hpp"
 #include "Add.hpp"
@@ -24,7 +27,7 @@ public:
         return obj_rep[idx];
     }
 
-    Array& operator=(Array const& b){
+    constexpr Array& operator=(Array const& b){
         assert(Size() == b.Size());
         for (size_t i = 0; i < b.Size(); ++i)
         {
@@ -34,7 +37,7 @@ public:
     }
 
     template<typename T2, typename Rep2>
-    Array& operator=(Array<T2,Rep2> const& b){
+    constexpr Array& operator=(Array<T2,Rep2> const& b){
         assert(Size() == b.Size());
         for (size_t i = 0; i < b.Size(); ++i)
         {

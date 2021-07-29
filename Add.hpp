@@ -2,6 +2,8 @@
 #ifndef ADD_HPP
 #define ADD_HPP
 
+#include <cstddef>
+#include <cassert>
 #include "expr_template_traits.hpp"
 
 template<typename T, typename OP1, typename OP2>
