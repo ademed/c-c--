@@ -15,4 +15,6 @@
 #include  <functional>
 #include <utility>
 #include <list>
+#include "MyArray.hpp"
+#include <valarray>
 #include "Array.hpp"

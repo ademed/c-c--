@@ -19,27 +19,43 @@ struct testing{testing() = delete;};
 
 
 int main(){
+    std::size_t sz = 1000;
 
-
-    MyArray<double> x(1000,12);
-    MyArray<double> y(1000,3);    
+    MyArray<double> x1(sz,12);         
+    MyArray<double> y1(sz,13);    
+    Array<double> x(sz,12);  
+    Array<double> y(sz,13);
     auto start = std::chrono::high_resolution_clock::now();
    
-    // MyArray<double> z(1000);
-    // for(int i = 0; i < 1000; ++i){
-    //      z = 1.35*x + x*y;  
+    ////----------OPERATOR OVERLOAD WITH EXPRESSION TEMPLATES-----//
+
+    Array<double> z(sz);
+    for(int i = 0; i < 10000; ++i){      
+        z = 2.0*x + x*y;  
+    }
+
+
+    ////--------OPERATOR OVERLOAD WITHOUT EXPRESSION TEMPLATES----//
+
+    // MyArray<double> z1(sz);
+    // for(int i = 0; i < 10000; ++i){
+    //     z1 = 2.0*x1 + x1*y1;    
     // }
 
-    for(int i = 0; i < 1000; ++i){
-        MyArray<double> z(1000);
-        for (size_t j = 0; i < x.Size(); i++)   
-        {
-            z[j] = 1.35*x[j] + x[j]*y[j];  
-        }             
-    }
+
+    ////------------HAND CODED---------//////
+
+    // for(int i = 0; i < 10000; ++i){
+    //     MyArray<double> z(sz);
+    //     for (size_t j = 0; i < x.Size(); i++)   
+    //     {
+    //         z[j] = 2.0*x[j] + x[j]*y[j];     
+    //     }             
+    // }
     auto end = std::chrono::high_resolution_clock::now();
     auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     std::cout << time << std::endl;
+    //std::cout << z1 << std::endl;
     
     //std::cout << z << std::endl;     
 
