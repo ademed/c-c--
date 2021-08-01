@@ -74,9 +74,10 @@ std::ostream& operator<<(std::ostream& str, MyArray<U> const& out){
 template<typename T>
     template<typename U>
 MyArray<U> MyArray<T>::operator*(MyArray<U> const& b){
-    assert(is_equal(Size(),b.Size()));
-    MyArray<U> result(b.Size());
-    for (size_t i = 0; i < b.Size(); i++)
+   // assert(is_equal(Size(),b.Size()));
+    int sz = b.Size();
+    MyArray<U> result(sz);
+    for (size_t i = 0; i < sz; i++)
     {
         result[i] = this->begin[i]*b[i];
     }
@@ -85,9 +86,10 @@ MyArray<U> MyArray<T>::operator*(MyArray<U> const& b){
 template<typename T>
     template<typename U>
 MyArray<U> MyArray<T>::operator+(MyArray<U> const& b){
-     assert(is_equal(Size(),b.Size()));
-    MyArray<U> result(b.Size());
-    for (size_t i = 0; i < b.Size(); i++)
+    // assert(is_equal(Size(),b.Size()));
+    int sz = b.Size();
+    MyArray<U> result(sz);
+    for (size_t i = 0; i < sz; i++)
     {
         result[i] = this->begin[i] + b[i];
     }
@@ -95,8 +97,9 @@ MyArray<U> MyArray<T>::operator+(MyArray<U> const& b){
 }
 template<typename T, typename S>
 MyArray<T> operator*(S const& a,MyArray<T> const& b){
-    MyArray<T> result(b.Size());
-    for (size_t i = 0; i < b.Size(); i++)
+    int sz = b.Size();
+    MyArray<T> result(sz);
+    for (size_t i = 0; i < sz; i++)
     {
         result[i] = b[i]*a;
     }
@@ -104,8 +107,9 @@ MyArray<T> operator*(S const& a,MyArray<T> const& b){
 }
 template<typename T, typename S>
 MyArray<T> operator*(MyArray<T> const& b, S const& a){
-    MyArray<T> result(b.Size());
-    for (size_t i = 0; i < b.Size(); i++)
+    int sz = b.Size();
+    MyArray<T> result(sz);
+    for (size_t i = 0; i < sz; i++)
     {
         result[i] = b[i]*a;
     }

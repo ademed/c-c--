@@ -444,6 +444,33 @@ struct HasType<T, std::void_t<typename T::value_type, typename T::difference_typ
 
 
 
+/////******METAPROGRAMMING********//////
+template<typename T, std::size_t N>
+struct DotProductT{
+    using value_type = T;
+    using const_p = const T*;
+    static inline  value_type result( const_p  a,   const_p  b){
+        return *a * *b + DotProductT<value_type, N-1>::result(a+1,b+1);
+    }
+};
+
+template<typename T>
+struct DotProductT<T, 0>{
+    using value_type = T;
+    using const_p = const T*;
+    static inline  value_type result( const_p  a,   const_p  b){
+        return  value_type{};
+    }
+};
+
+template<typename T, std::size_t N>
+ElementT_t<T> dotproduct(T const& a, T const& b){
+return DotProductT<ElementT_t<T>, N>::result(a.begin(), b.begin()); 
+}
+
+
+
+
 
 
 }

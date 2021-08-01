@@ -1,5 +1,5 @@
 CC = g++
-CCFLAGS = -std=c++17 -g 
+CCFLAGS = -std=c++17 -g -O3 -fopenmp -ftemplate-depth=10000
 
  main: main.o
 	$(CC) $(CCFLAGS) main.o -o main 

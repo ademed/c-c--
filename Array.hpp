@@ -7,6 +7,7 @@
 #include "Mult.hpp"
 #include "Add.hpp"
 #include "MyArray.hpp"
+#include <omp.h>
 
 template<typename T, typename Rep = MyArray<T>>
 struct Array{
@@ -18,18 +19,19 @@ public:
     std::size_t Size() const{return obj_rep.Size();}
 
     decltype(auto) operator[](std::size_t idx) const{
-        assert(idx < Size());
+        //assert(idx < Size());
         return obj_rep[idx];
     }
 
     T& operator[](std::size_t idx){
-        assert(idx < Size());
+       // assert(idx < Size());
         return obj_rep[idx];
     }
 
     constexpr Array& operator=(Array const& b){
-        assert(Size() == b.Size());
-        for (size_t i = 0; i < b.Size(); ++i)
+        //assert(Size() == b.Size());
+        int sz = b.Size();
+        for (size_t i = 0; i < sz; ++i)
         {
             obj_rep[i] = b[i];
         }
@@ -38,8 +40,9 @@ public:
 
     template<typename T2, typename Rep2>
     constexpr Array& operator=(Array<T2,Rep2> const& b){
-        assert(Size() == b.Size());
-        for (size_t i = 0; i < b.Size(); ++i)
+       // assert(Size() == b.Size());
+       int sz = b.Size();
+        for (size_t i = 0; i < sz; ++i)
         {
             obj_rep[i] = b[i];
         }
@@ -58,6 +61,15 @@ public:
 
     template<typename U, typename OP2> //scalar-vector multiply
     friend Array<U, Mult<U, Scalar<U>, OP2>> operator*(U const& a, Array<U, OP2>  const& b);
+
+    template<typename U, typename OP1, typename OP2> //vector-vector multiply
+    Array<U, Add<U, OP1, OP2>> operator+(Array<U, OP2>  const& b);
+    
+    template<typename U, typename OP1, typename OP2> //vector-vector multiply
+    Array<U, Mult<U, OP1, OP2>> operator*(Array<U, OP2>  const& b);
+
+    template<typename U, typename OP2> //scalar-vector multiply
+    Array<U, Mult<U, Scalar<U>, OP2>> operator*(U const& a);
 
     template<typename U, typename rep>
     friend std::ostream& operator<<(std::ostream& str,Array<U,rep> const& out);
@@ -92,5 +104,7 @@ template<typename U, typename OP2> //scalar-vector multiply
 Array<U, Mult<U, Scalar<U>, OP2>> operator*(U const& a, Array<U, OP2>  const& b){
     return Array<U, Mult<U, Scalar<U>, OP2>>(Mult<U,Scalar<U>,OP2>(Scalar<U>(a),b.rep()));
 };
+
+
     
 #endif

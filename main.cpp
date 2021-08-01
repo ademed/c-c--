@@ -19,20 +19,56 @@ struct testing{testing() = delete;};
 
 
 int main(){
-    std::size_t sz = 1000;
+    const std::size_t sz = 7000;
+    using type = std::array<int,sz>;
+    type v={};   
+    auto start = std::chrono::high_resolution_clock::now();
+        for (size_t i = 0; i < 100000; i++)
+        {
+            auto m = Template::dotproduct<type , sz>(v,v);
+        }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    std::cout << "metaprogram: "<< time << " nanoseconds" <<std::endl;
+    
+
+    start = std::chrono::high_resolution_clock::now();
+        int sum = 0;
+        for (size_t i = 0; i < 100000; i++)
+        {
+                for(auto kk:v){  
+                sum+=kk*kk;   
+            }   
+        }  
+    end = std::chrono::high_resolution_clock::now();
+    time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    std::cout << "basic loop: "<< time << " nanoseconds" <<std::endl;
+
+    // std::valarray<int> v = {1,2,3,4,5}, v2 = {1,2,3,4,5,6};
+    // auto b = v2*v; 
+    // for(std::size_t i = 0; i < b.size(); ++i){
+    //     std::cout << b[i] << std::endl;
+    // }
+
+
+    #if 0
+    std::size_t sz = 200;
     
 
     MyArray<double> x1(sz,12);         
     MyArray<double> y1(sz,13);    
     Array<double> x(sz,12);  
     Array<double> y(sz,13);
+
+    /////Without compiler optimization, expression templates runtime is no different from no-expr-temp codes. However, we get 4 times speed-up with compiler optimization
+    ///Moreover, for small vector sizes, expression template code is about 200 TIMES faster than no-expr-temp. try sz = 200
        
     ////----------OPERATOR OVERLOAD WITH EXPRESSION TEMPLATES-----//
     auto start = std::chrono::high_resolution_clock::now();
     Array<double> z(sz);
-    for(int i = 0; i < 10000; ++i){      
-        z = 2.0*x + x*y;    
-    }
+    for(int i = 0; i < 10000; ++i){          
+        z = 2.0*x + x*y;                            
+    }   
     auto end = std::chrono::high_resolution_clock::now();
     auto time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
     std::cout << "Exp Temp: "<< time << " microseconds" <<std::endl;
@@ -41,8 +77,8 @@ int main(){
     start = std::chrono::high_resolution_clock::now();
     MyArray<double> z1(sz);
     for(int i = 0; i < 10000; ++i){
-        z1 = 2.0*x1 + x1*y1;      
-    }
+        x1 = 2.0*x1 + x1*y1;                 
+    }  
     end = std::chrono::high_resolution_clock::now();
     time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
     std::cout << "NO Expr Temp: "<< time << " microseconds" <<std::endl;
@@ -60,6 +96,7 @@ int main(){
     end = std::chrono::high_resolution_clock::now();
     time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
     std::cout << "Hand Coded: "<< time << " microseconds" <<std::endl;
+    #endif
 
 
     
